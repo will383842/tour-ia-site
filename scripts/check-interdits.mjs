@@ -19,7 +19,8 @@ const mot = (m) => new RegExp(`${avant}${m.replaceAll(' ', E)}${apres}`, 'giu');
 
 // Liste des interdits : [libellé, expression]
 const INTERDITS = [
-  ['Grenoble', mot('grenoble')],
+  // Nom de ville reconstitué pour ne jamais l’écrire en clair dans le dépôt
+  ['ville exclue', mot(['gre', 'noble'].join(''))],
   ['devis', mot('devis')],
   ['palmarès', mot('palmar[eè]s')],
   ['« Ils en parlent »', mot('ils en parlent')],
