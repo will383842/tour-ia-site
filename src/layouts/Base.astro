@@ -2,6 +2,7 @@
 // Gabarit commun : métadonnées SEO, robots, Open Graph, JSON-LD, en-tête et pied de page.
 import '../styles/global.css';
 import policeTitre from '@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2?url';
+import policeTexte from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
 import EnTete from '../components/EnTete.astro';
 import PiedDePage from '../components/PiedDePage.astro';
 import { MARQUE_NOM, ORGANISATEUR, SITE_ORIGINE, URL_BASE } from '../data/brand';
@@ -54,6 +55,7 @@ const jsonLd = {
     <meta name="theme-color" content="#faf8f3" />
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
     <link rel="preload" href={policeTitre} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={policeTexte} as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
