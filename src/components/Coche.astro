@@ -1,0 +1,26 @@
+---
+// Coche terracotta : repère de validation du Tour.
+interface Props {
+  taille?: number;
+  class?: string;
+}
+const { taille = 28, class: classe = '' } = Astro.props;
+---
+<svg
+  class={classe}
+  width={taille}
+  height={taille}
+  viewBox="0 0 28 28"
+  aria-hidden="true"
+  focusable="false"
+>
+  <circle cx="14" cy="14" r="13" fill="var(--color-terracotta)" />
+  <path
+    d="M8.5 14.5l3.6 3.6 7.4-8"
+    fill="none"
+    stroke="#fff"
+    stroke-width="2.4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

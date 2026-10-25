@@ -1,0 +1,5 @@
+# En-têtes HTTP (format Cloudflare Pages / Netlify).
+# Préproduction : aucune indexation. Si PUBLIC_INDEXABLE=true au build,
+# la ligne X-Robots-Tag est retirée automatiquement de dist/_headers.
+/*
+  X-Robots-Tag: noindex, nofollow

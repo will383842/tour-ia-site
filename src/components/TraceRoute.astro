@@ -1,0 +1,58 @@
+---
+// Tracé en pointillé reliant des étapes, terminé par une coche.
+// Dessin décoratif aux dimensions fixes (aucun décalage de mise en page).
+interface Props {
+  class?: string;
+}
+const { class: classe = '' } = Astro.props;
+// Points d’étape le long du tracé
+const points = [
+  { x: 36, y: 214 },
+  { x: 132, y: 128 },
+  { x: 250, y: 176 },
+  { x: 346, y: 70 },
+];
+---
+<svg
+  class={classe}
+  width="440"
+  height="280"
+  viewBox="0 0 440 280"
+  aria-hidden="true"
+  focusable="false"
+>
+  <!-- Filets de repère, très discrets -->
+  <g stroke="var(--color-bordure)" stroke-width="1">
+    <line x1="0" y1="56" x2="440" y2="56" />
+    <line x1="0" y1="140" x2="440" y2="140" />
+    <line x1="0" y1="224" x2="440" y2="224" />
+  </g>
+  <!-- Le tracé -->
+  <path
+    d="M36 214 C 70 160, 92 120, 132 128 S 210 200, 250 176 S 300 70, 346 70 S 392 46, 404 40"
+    fill="none"
+    stroke="var(--color-fg-soft)"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-dasharray="0.5 9"
+  />
+  <!-- Étapes -->
+  {points.map((p) => (
+    <g>
+      <circle cx={p.x} cy={p.y} r="9" fill="var(--color-ivoire)" stroke="var(--color-fg)" stroke-width="1.5" />
+      <circle cx={p.x} cy={p.y} r="3" fill="var(--color-fg)" />
+    </g>
+  ))}
+  <!-- Arrivée validée -->
+  <g transform="translate(390 26)">
+    <circle cx="14" cy="14" r="15" fill="var(--color-terracotta)" />
+    <path d="M8.5 14.5l3.6 3.6 7.4-8" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <!-- Repères mono -->
+  <g font-family="var(--font-mono)" font-size="12" fill="var(--color-fg-muted)" letter-spacing="1">
+    <text x="22" y="246">01</text>
+    <text x="118" y="160">02</text>
+    <text x="236" y="208">03</text>
+    <text x="332" y="102">04</text>
+  </g>
+</svg>

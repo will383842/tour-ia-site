@@ -1,0 +1,28 @@
+---
+// Page 404 propre au Tour, avec trois liens utiles.
+import Base from '../layouts/Base.astro';
+import { lien } from '../data/brand';
+
+const liens = [
+  { libelle: 'Revenir à l’accueil du Tour', href: lien() },
+  { libelle: 'Comment ça marche', href: lien('#comment-ca-marche') },
+  { libelle: 'Je veux le Tour dans mon entreprise', href: lien('participer/') },
+];
+---
+<Base titre="Page introuvable | Tour de France IA" description="Cette page du Tour de France IA n’existe pas ou a changé d’adresse. Voici trois liens pour reprendre la route.">
+  <section class="conteneur pt-16 sm:pt-24">
+    <p class="repere">Erreur 404</p>
+    <h1 class="mt-4 text-5xl leading-tight sm:text-6xl">Cette étape n’existe pas.</h1>
+    <p class="mt-5 max-w-xl text-lg text-fg-soft">La page a peut-être changé d’adresse. Reprenez la route ici&nbsp;:</p>
+    <ul class="mt-10 max-w-xl border-t border-bordure">
+      {liens.map((l, i) => (
+        <li class="border-b border-bordure">
+          <a href={l.href} class="flex min-h-14 items-center gap-4 py-3 text-lg text-fg hover:text-terracotta">
+            <span class="font-mono text-sm text-fg-muted">{String(i + 1).padStart(2, '0')}</span>
+            {l.libelle}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>

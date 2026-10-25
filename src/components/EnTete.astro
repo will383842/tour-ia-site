@@ -1,0 +1,65 @@
+---
+// En-tête du site : nom du Tour, menu court et bouton principal.
+// Menu mobile en <details> : aucun JavaScript.
+import { MARQUE_NOM, lien } from '../data/brand';
+
+const menu = [
+  { libelle: 'Le principe', href: lien('#principe') },
+  { libelle: 'Comment ça marche', href: lien('#comment-ca-marche') },
+  { libelle: 'Les étapes', href: lien('#etapes') },
+  { libelle: 'FAQ', href: lien('faq/') },
+  { libelle: 'Fondateur', href: lien('#fondateur') },
+];
+const cta = { libelle: 'Je veux le Tour dans mon entreprise', href: lien('participer/') };
+---
+<header class="sticky top-0 z-40 border-b border-bordure bg-ivoire/95 backdrop-blur supports-[backdrop-filter]:bg-ivoire/85">
+  <div class="conteneur flex h-16 items-center justify-between gap-6">
+    <a href={lien()} class="flex min-h-11 items-center font-titre text-xl font-medium tracking-tight text-ink">
+      {MARQUE_NOM}
+    </a>
+
+    <!-- Bureau -->
+    <nav aria-label="Menu principal" class="hidden xl:block">
+      <ul class="flex items-center gap-7 text-[0.95rem] text-fg-soft">
+        {menu.map((m) => (
+          <li><a href={m.href} class="inline-flex min-h-11 items-center hover:text-ink">{m.libelle}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <a href={cta.href} class="btn btn-principal hidden h-11 px-5 text-[0.95rem] xl:inline-flex">{cta.libelle}</a>
+
+    <!-- Mobile et tablette -->
+    <details class="menu-mobile xl:hidden">
+      <summary class="flex h-11 min-w-11 cursor-pointer list-none items-center justify-center gap-2 rounded-pilule border border-bordure-strong px-4 text-sm font-semibold text-fg">
+        <span class="ouvrir">Menu</span>
+        <span class="fermer">Fermer</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+          <path class="trait-haut" d="M2 5h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          <path class="trait-bas" d="M2 11h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+      </summary>
+      <nav aria-label="Menu principal" class="absolute inset-x-0 top-16 border-b border-bordure bg-ivoire shadow-douce">
+        <ul class="conteneur flex flex-col py-3">
+          {menu.map((m) => (
+            <li class="border-b border-bordure last:border-0">
+              <a href={m.href} class="flex min-h-12 items-center text-lg text-fg">{m.libelle}</a>
+            </li>
+          ))}
+        </ul>
+        <div class="conteneur pb-6">
+          <a href={cta.href} class="btn btn-principal w-full whitespace-normal text-center">{cta.libelle}</a>
+        </div>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<style>
+  .menu-mobile summary::-webkit-details-marker { display: none; }
+  .menu-mobile .fermer { display: none; }
+  .menu-mobile[open] .ouvrir { display: none; }
+  .menu-mobile[open] .fermer { display: inline; }
+  .menu-mobile svg path { transition: transform 160ms ease; transform-origin: 8px 8px; }
+  .menu-mobile[open] .trait-haut { transform: translateY(3px) rotate(45deg); }
+  .menu-mobile[open] .trait-bas { transform: translateY(-3px) rotate(-45deg); }
+</style>

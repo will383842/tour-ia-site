@@ -1,0 +1,159 @@
+/* Feuille de style globale : Tailwind v4 + charte « Editorial Premium Light ». */
+@import 'tailwindcss';
+
+/* Polices auto-hébergées, sous-ensemble latin seulement */
+@font-face {
+  font-family: 'Fraunces Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Fraunces Variable';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-wght-italic.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Manrope Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('../../node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inconsolata Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 900;
+  src: url('../../node_modules/@fontsource-variable/inconsolata/files/inconsolata-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Polices de secours ajustées pour limiter le décalage au chargement */
+@font-face {
+  font-family: 'Fraunces Secours';
+  src: local('Georgia'), local('Times New Roman');
+  size-adjust: 104%;
+  ascent-override: 92%;
+  descent-override: 24%;
+}
+@font-face {
+  font-family: 'Manrope Secours';
+  src: local('Arial'), local('Helvetica');
+  size-adjust: 103%;
+  ascent-override: 102%;
+  descent-override: 29%;
+}
+
+@theme {
+  /* Fonds */
+  --color-ivoire: #faf8f3;
+  --color-paper: #ffffff;
+  --color-sand: #f0e9da;
+  --color-sand-deep: #e6dcc4;
+  --color-mocha: #2a2520;
+  --color-mocha-soft: #3d362f;
+  --color-ink: #14100e;
+
+  /* Textes */
+  --color-fg: #1a1815;
+  --color-fg-soft: #524b41;
+  --color-fg-muted: #5a4f44;
+  --color-mocha-fg: #f7f3ea;
+  --color-mocha-fg-muted: #b5aa9c;
+
+  /* Bleu primaire */
+  --color-primaire: #1a4dd9;
+  --color-primaire-hover: #0f3aae;
+  --color-primaire-soft: #e8efff;
+
+  /* Terracotta (accent) ; « -clair » réservé aux fonds sombres mocha */
+  --color-terracotta: #b23f16;
+  --color-terracotta-soft: #f5e3d8;
+  --color-terracotta-deep: #8c3010;
+  --color-terracotta-clair: #eb8560;
+
+  /* Sage : réservé à l’état « terminée » */
+  --color-sage: #5e6c54;
+
+  /* Bordures et états */
+  --color-bordure: #e5ddc8;
+  --color-bordure-strong: #c8bda0;
+  --color-succes: #5e7050;
+  --color-erreur: #b8341c;
+
+  /* Polices */
+  --font-titre: 'Fraunces Variable', 'Fraunces Secours', Georgia, serif;
+  --font-sans: 'Manrope Variable', 'Manrope Secours', system-ui, sans-serif;
+  --font-mono: 'Inconsolata Variable', ui-monospace, Menlo, monospace;
+
+  /* Rayons */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  --radius-hero: 28px;
+  --radius-pilule: 9999px;
+
+  /* Ombres douces, brunes chaudes */
+  --shadow-douce: 0 1px 2px rgba(42, 37, 32, 0.04), 0 4px 8px rgba(42, 37, 32, 0.06);
+  --shadow-levee: 0 2px 4px rgba(42, 37, 32, 0.05), 0 10px 20px rgba(42, 37, 32, 0.08);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-ivoire font-sans text-fg antialiased;
+    overflow-x: clip;
+    font-feature-settings: 'kern', 'liga';
+  }
+  h1, h2, h3 {
+    @apply font-titre text-ink;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  :focus-visible {
+    outline: 2px solid var(--color-primaire);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+}
+
+@layer components {
+  /* Boutons pilule, hauteur 48 px (cible tactile confortable) */
+  .btn {
+    @apply inline-flex h-12 items-center justify-center gap-2 rounded-pilule px-6 text-base font-semibold whitespace-nowrap;
+    transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-principal { @apply bg-primaire text-white shadow-douce hover:bg-primaire-hover; }
+  .btn-secondaire { @apply bg-fg text-ivoire hover:bg-ink; }
+  .btn-terracotta { @apply bg-terracotta text-white hover:bg-terracotta-deep; }
+
+  /* Carte éditoriale */
+  .carte { @apply rounded-xl border border-bordure bg-paper p-6 sm:p-8; }
+
+  /* Petit repère monospace (numérotation, surtitres) */
+  .repere { @apply font-mono text-sm tracking-[0.08em] text-fg-muted uppercase; }
+
+  .conteneur { @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8; }
+
+  /* Lien souligné discret */
+  .lien { @apply underline decoration-bordure-strong decoration-1 underline-offset-4 hover:decoration-terracotta; }
+}
