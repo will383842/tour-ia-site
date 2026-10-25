@@ -1,0 +1,76 @@
+---
+// Gabarit commun : métadonnées SEO, robots, Open Graph, JSON-LD, en-tête et pied de page.
+import '../styles/global.css';
+import policeTitre from '@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2?url';
+import EnTete from '../components/EnTete.astro';
+import PiedDePage from '../components/PiedDePage.astro';
+import { MARQUE_NOM, ORGANISATEUR, SITE_ORIGINE, URL_BASE } from '../data/brand';
+
+interface Props {
+  /** Titre de la page (60 caractères maximum). */
+  titre: string;
+  /** Description unique (155 caractères maximum). */
+  description: string;
+}
+const { titre, description } = Astro.props;
+
+// Garde-fous SEO : le build échoue si les limites sont dépassées
+if (titre.length > 60) throw new Error(`Titre trop long (${titre.length} > 60) : ${titre}`);
+if (description.length > 155) throw new Error(`Description trop longue (${description.length} > 155) : ${description}`);
+
+// Préproduction : noindex sauf si PUBLIC_INDEXABLE vaut exactement « true »
+const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true';
+const canonique = new URL(Astro.url.pathname, SITE_ORIGINE).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${URL_BASE}#site`,
+      name: MARQUE_NOM,
+      url: URL_BASE,
+      inLanguage: 'fr-FR',
+      publisher: { '@id': `${SITE_ORIGINE}/#organisation` },
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_ORIGINE}/#organisation`,
+      name: ORGANISATEUR,
+      url: `${SITE_ORIGINE}/`,
+    },
+  ],
+};
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titre}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonique} />
+    {!indexable && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#faf8f3" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="preload" href={policeTitre} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content={MARQUE_NOM} />
+    <meta property="og:title" content={titre} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonique} />
+    <meta name="twitter:card" content="summary" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-pilule focus:bg-paper focus:px-4 focus:py-3">Aller au contenu</a>
+    <EnTete />
+    <main id="contenu" class="flex-1">
+      <slot />
+    </main>
+    <PiedDePage />
+  </body>
+</html>

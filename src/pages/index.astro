@@ -1,0 +1,197 @@
+---
+// Page d’accueil du Tour de France IA.
+import Base from '../layouts/Base.astro';
+import TraceRoute from '../components/TraceRoute.astro';
+import CarteEtape from '../components/CarteEtape.astro';
+import Coche from '../components/Coche.astro';
+import { ETAPES } from '../data/etapes';
+import { AUDIT, FORMATION, SOIREE, SEUIL_OUVERTURE, VISIO_MINUTES, PARTICIPATION_MINUTES } from '../data/faits';
+import { FONDATEUR, ORGANISATEUR, LIENS_ORGANISATEUR, lien } from '../data/brand';
+
+const titre = 'Tour de France IA\u00a0: l’IA vient dans votre entreprise';
+const description =
+  'Une ville s’ouvre dès que 5 entreprises ont confirmé. Pour chacune : un audit le matin, la formation de vos équipes l’après-midi, chez vous.';
+
+const participer = lien('participer/');
+
+const etapesDuTour = [
+  { titre: 'Vous participez', detail: `${PARTICIPATION_MINUTES} minutes`, texte: 'Quelques questions sur votre entreprise.' },
+  { titre: `Une visio de ${VISIO_MINUTES} minutes`, detail: 'Visio', texte: 'Nous préparons ensemble votre journée.' },
+  { titre: `À ${SEUIL_OUVERTURE} entreprises confirmées, la ville s’ouvre`, detail: `Seuil : ${SEUIL_OUVERTURE}`, texte: 'L’étape est annoncée.' },
+  { titre: 'Une semaine sur place : votre journée', detail: 'Sur place', texte: 'Nous venons dans vos locaux.' },
+];
+
+const journee = [
+  { moment: AUDIT.moment, titre: 'L’audit chez vous', duree: AUDIT.libelleDuree },
+  { moment: FORMATION.moment, titre: 'La formation de vos équipes', duree: FORMATION.libelleDuree },
+  { moment: SOIREE.moment, titre: 'La soirée réseau Tour de France IA', duree: 'Réseau' },
+];
+---
+<Base titre={titre} description={description}>
+  <!-- Héros -->
+  <section class="conteneur pt-6 sm:pt-10">
+    <div class="relative overflow-hidden rounded-hero border border-bordure bg-paper px-5 py-12 sm:px-10 sm:py-16 lg:grid lg:grid-cols-[1.25fr_1fr] lg:items-center lg:gap-10 lg:px-14 lg:py-20">
+      <div>
+        <p class="repere">Un événement {ORGANISATEUR}</p>
+        <!-- Titre provisoire -->
+        <h1 class="mt-5 text-[2.6rem] leading-[1.04] sm:text-6xl lg:text-7xl">
+          L’IA fait le <span class="text-terracotta">tour</span> de France.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-fg-soft sm:text-xl">
+          Une ville s’ouvre à notre passage dès que {SEUIL_OUVERTURE} entreprises ont confirmé.
+          Pour chacune&nbsp;: un audit le matin, la formation de vos équipes l’après-midi, chez vous.
+        </p>
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+          <a href={participer} class="btn btn-principal whitespace-normal text-center">Je veux le Tour dans mon entreprise</a>
+          <a href={lien('#comment-ca-marche')} class="inline-flex min-h-12 items-center justify-center gap-2 font-semibold text-fg sm:justify-start">
+            Comment ça marche
+            <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+      <div class="mt-12 lg:mt-0">
+        <TraceRoute class="h-auto w-full max-w-[440px] lg:ml-auto" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. Comment ça marche -->
+  <section id="comment-ca-marche" class="conteneur mt-24 sm:mt-32" aria-labelledby="titre-comment">
+    <p class="repere">01 — Le parcours</p>
+    <h2 id="titre-comment" class="mt-3 text-4xl sm:text-5xl">Comment ça marche</h2>
+    <ol class="parcours mt-12 grid gap-10 lg:grid-cols-4 lg:gap-8">
+      {etapesDuTour.map((e, i) => (
+        <li class="relative pl-16 lg:pt-16 lg:pl-0">
+          <span class="pastille" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <p class="repere">{e.detail}</p>
+          <h3 class="mt-2 text-xl leading-snug sm:text-2xl">{e.titre}</h3>
+          <p class="mt-2 text-fg-soft">{e.texte}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- 2. Votre journée -->
+  <section id="principe" class="conteneur mt-24 sm:mt-32" aria-labelledby="titre-journee">
+    <p class="repere">02 — Le principe</p>
+    <h2 id="titre-journee" class="mt-3 text-4xl sm:text-5xl">Votre journée</h2>
+    <ol class="mt-12 grid overflow-hidden rounded-xl border border-bordure bg-paper md:grid-cols-3">
+      {journee.map((j, i) => (
+        <li class={`flex flex-col gap-4 p-6 sm:p-8 ${i > 0 ? 'border-t border-bordure md:border-t-0 md:border-l' : ''} ${i === 2 ? 'bg-sand' : ''}`}>
+          <div class="flex items-center justify-between gap-4">
+            <p class="repere">{j.moment}</p>
+            <p class="font-mono text-sm text-terracotta">{j.duree}</p>
+          </div>
+          <h3 class="text-2xl leading-snug">{j.titre}</h3>
+        </li>
+      ))}
+    </ol>
+    <p class="mt-5 text-fg-soft">Chez vous, dans vos locaux. Le vendredi soir, chacun règle sa part.</p>
+  </section>
+
+  <!-- 3. Les étapes -->
+  <section id="etapes" class="conteneur mt-24 sm:mt-32" aria-labelledby="titre-etapes">
+    <p class="repere">03 — La carte</p>
+    <h2 id="titre-etapes" class="mt-3 text-4xl sm:text-5xl">Les étapes</h2>
+    {ETAPES.length === 0 ? (
+      <div class="carte mt-10 flex items-start gap-4 sm:items-center">
+        <svg class="mt-1 shrink-0 sm:mt-0" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+          <circle cx="14" cy="14" r="12" fill="none" stroke="var(--color-fg-soft)" stroke-width="1.6" stroke-dasharray="0.5 4.2" stroke-linecap="round" />
+          <circle cx="14" cy="14" r="3" fill="var(--color-fg-soft)" />
+        </svg>
+        <p class="text-lg text-fg-soft">Les villes s’ouvrent au fil des inscriptions. Aucune étape n’est encore confirmée.</p>
+      </div>
+    ) : (
+      <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {ETAPES.map((etape) => (
+          <li><CarteEtape etape={etape} /></li>
+        ))}
+      </ul>
+    )}
+  </section>
+
+  <!-- 4. Pour qui -->
+  <section class="conteneur mt-24 sm:mt-32" aria-labelledby="titre-pour-qui">
+    <div class="grid gap-6 border-t border-bordure-strong pt-10 lg:grid-cols-[1fr_2fr] lg:gap-12">
+      <div>
+        <p class="repere">04 — Pour qui</p>
+        <h2 id="titre-pour-qui" class="mt-3 text-4xl sm:text-5xl">Pour qui&nbsp;?</h2>
+      </div>
+      <p class="font-titre text-2xl leading-snug text-fg sm:text-3xl">
+        De l’indépendant au grand groupe, tous secteurs&nbsp;: commerce, industrie, santé, bâtiment, services, associations.
+      </p>
+    </div>
+  </section>
+
+  <!-- 5. Fondateur et organisateur -->
+  <section id="fondateur" class="conteneur mt-24 sm:mt-32" aria-labelledby="titre-fondateur">
+    <div class="grid gap-6 border-t border-bordure-strong pt-10 lg:grid-cols-[1fr_2fr] lg:gap-12">
+      <div>
+        <p class="repere">05 — Qui</p>
+        <h2 id="titre-fondateur" class="mt-3 text-4xl sm:text-5xl">Fondateur et organisateur</h2>
+      </div>
+      <div class="space-y-3 text-lg text-fg-soft">
+        <p>Le Tour est imaginé par {FONDATEUR}, fondateur d’<a href={LIENS_ORGANISATEUR.aPropos} class="lien text-fg">{ORGANISATEUR}</a>.</p>
+        <p>Il est organisé par <a href={LIENS_ORGANISATEUR.accueil} class="lien text-fg">{ORGANISATEUR}</a>, cabinet IA.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Rappel -->
+  <section class="conteneur mt-24 sm:mt-32" aria-labelledby="titre-rappel">
+    <div class="flex flex-col items-start gap-8 rounded-hero bg-mocha px-6 py-12 text-mocha-fg sm:px-12 sm:py-16 lg:flex-row lg:items-center lg:justify-between">
+      <div class="flex items-start gap-4">
+        <Coche taille={32} class="mt-1 shrink-0" />
+        <h2 id="titre-rappel" class="text-3xl text-mocha-fg sm:text-4xl">Faites venir le Tour chez vous.</h2>
+      </div>
+      <a href={participer} class="btn btn-principal whitespace-normal text-center">Je veux le Tour dans mon entreprise</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Numéros du parcours reliés par un tracé en pointillé */
+  .pastille {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    border: 1.5px solid var(--color-fg);
+    background: var(--color-ivoire);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--color-ink);
+  }
+  .parcours li:last-child .pastille {
+    border-color: var(--color-terracotta);
+    background: var(--color-terracotta);
+    color: #fff;
+  }
+  /* Tracé vertical (mobile) */
+  .parcours li:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: calc(1.375rem - 1px);
+    top: 2.75rem;
+    bottom: -2.5rem;
+    width: 2px;
+    background: radial-gradient(circle, var(--color-fg-soft) 1px, transparent 1.4px) center top / 2px 9px repeat-y;
+  }
+  /* Tracé horizontal (bureau) */
+  @media (min-width: 64rem) {
+    .parcours li:not(:last-child)::before {
+      left: 2.75rem;
+      right: -2rem;
+      top: calc(1.375rem - 1px);
+      bottom: auto;
+      width: auto;
+      height: 2px;
+      background: radial-gradient(circle, var(--color-fg-soft) 1px, transparent 1.4px) left center / 9px 2px repeat-x;
+    }
+  }
+</style>

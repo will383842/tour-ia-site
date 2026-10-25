@@ -1,0 +1,24 @@
+---
+// Page « Participer » : emplacement provisoire en attendant le formulaire.
+import Base from '../../layouts/Base.astro';
+import { LIENS_ORGANISATEUR, lien } from '../../data/brand';
+import { PARTICIPATION_MINUTES, VISIO_MINUTES } from '../../data/faits';
+---
+<Base titre="Participer | Tour de France IA" description="Faites venir le Tour de France IA dans votre entreprise : quelques minutes pour participer, puis une visio de 20 minutes.">
+  <section class="conteneur pt-16 sm:pt-24">
+    <p class="repere">Participer</p>
+    <h1 class="mt-4 max-w-3xl text-5xl leading-tight sm:text-6xl">Je veux le Tour dans mon entreprise</h1>
+    <p class="mt-5 max-w-xl text-lg text-fg-soft">
+      {PARTICIPATION_MINUTES} minutes pour participer, puis une visio de {VISIO_MINUTES} minutes.
+    </p>
+    <!-- Emplacement du futur formulaire (hauteur réservée) -->
+    <div class="carte mt-10 max-w-2xl">
+      <p class="text-lg text-fg">Le formulaire ouvre très bientôt.</p>
+      <p class="mt-2 text-fg-soft">D’ici là, écrivez-nous&nbsp;: nous revenons vers vous.</p>
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+        <a href={LIENS_ORGANISATEUR.contact} class="btn btn-principal">Nous écrire</a>
+        <a href={lien()} class="btn btn-secondaire">Revenir à l’accueil</a>
+      </div>
+    </div>
+  </section>
+</Base>

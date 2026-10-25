@@ -1,0 +1,48 @@
+---
+// Carte d’une étape du Tour, avec son état et sa jauge réelle (jamais inventée).
+import Coche from './Coche.astro';
+import { LIBELLES_ETAT, type Etape } from '../data/etapes';
+
+interface Props {
+  etape: Etape;
+}
+const { etape } = Astro.props;
+
+const date = etape.dateDebut
+  ? new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(`${etape.dateDebut}T12:00:00`))
+  : null;
+const confirmees = Math.min(etape.confirmees, etape.seuil);
+
+// Couleur du badge selon l’état ; le sage est réservé à « terminée »
+const badge: Record<Etape['etat'], string> = {
+  'a-annoncer': 'bg-sand text-fg-soft',
+  'inscriptions-ouvertes': 'bg-primaire-soft text-primaire-hover',
+  confirmee: 'bg-terracotta-soft text-terracotta-deep',
+  terminee: 'bg-sage text-white',
+};
+---
+<article class="carte flex h-full flex-col gap-5 shadow-douce">
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <h3 class="text-2xl">{etape.ville}</h3>
+      <p class="mt-1 text-fg-soft">{etape.region}</p>
+    </div>
+    {etape.etat === 'confirmee' && <Coche class="shrink-0" />}
+  </div>
+  <p class={`inline-flex w-fit items-center rounded-pilule px-3 py-1 font-mono text-sm ${badge[etape.etat]}`}>
+    {LIBELLES_ETAT[etape.etat]}
+  </p>
+  {date && <p class="repere">Dès le <time datetime={etape.dateDebut}>{date}</time></p>}
+  {etape.etat !== 'terminee' && (
+    <div class="mt-auto">
+      <ol class="flex gap-2" aria-hidden="true">
+        {Array.from({ length: etape.seuil }, (_, i) => (
+          <li class={`h-2 flex-1 rounded-pilule ${i < confirmees ? 'bg-terracotta' : 'bg-sand-deep'}`} />
+        ))}
+      </ol>
+      <p class="mt-2 text-sm text-fg-soft">
+        {confirmees}&nbsp;/&nbsp;{etape.seuil} entreprises confirmées
+      </p>
+    </div>
+  )}
+</article>

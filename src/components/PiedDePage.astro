@@ -1,0 +1,46 @@
+---
+// Pied de page : organisateur, liens vers axion-ia.com et mention d’indépendance.
+import { MARQUE_NOM, ORGANISATEUR, LIENS_ORGANISATEUR, MENTION_INDEPENDANCE, lien } from '../data/brand';
+
+const liens = [
+  { libelle: 'À propos', href: LIENS_ORGANISATEUR.aPropos },
+  { libelle: 'Presse', href: LIENS_ORGANISATEUR.presse },
+  { libelle: 'Glossaire', href: LIENS_ORGANISATEUR.glossaire },
+  { libelle: 'Contact', href: LIENS_ORGANISATEUR.contact },
+];
+const legal = [
+  { libelle: 'Mentions légales', href: LIENS_ORGANISATEUR.mentionsLegales },
+  { libelle: 'Politique de confidentialité', href: LIENS_ORGANISATEUR.confidentialite },
+  { libelle: 'Accessibilité', href: LIENS_ORGANISATEUR.accessibilite },
+];
+---
+<footer class="mt-24 bg-mocha text-mocha-fg">
+  <div class="conteneur grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr]">
+    <div>
+      <a href={lien()} class="inline-flex min-h-11 items-center font-titre text-2xl text-mocha-fg">{MARQUE_NOM}</a>
+      <p class="mt-3 text-mocha-fg-muted">
+        Organisé par
+        <a href={LIENS_ORGANISATEUR.accueil} class="font-semibold text-mocha-fg underline decoration-terracotta-clair underline-offset-4">{ORGANISATEUR}</a>
+      </p>
+    </div>
+    <nav aria-label={`À propos d’${ORGANISATEUR}`}>
+      <p class="font-mono text-sm tracking-[0.08em] text-mocha-fg-muted uppercase">{ORGANISATEUR}</p>
+      <ul class="mt-3">
+        {liens.map((l) => (
+          <li><a href={l.href} class="inline-flex min-h-11 items-center hover:text-terracotta-clair">{l.libelle}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <nav aria-label="Informations légales">
+      <p class="font-mono text-sm tracking-[0.08em] text-mocha-fg-muted uppercase">Informations</p>
+      <ul class="mt-3">
+        {legal.map((l) => (
+          <li><a href={l.href} class="inline-flex min-h-11 items-center hover:text-terracotta-clair">{l.libelle}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+  <div class="border-t border-mocha-soft">
+    <p class="conteneur py-6 text-sm text-mocha-fg-muted">{MENTION_INDEPENDANCE}</p>
+  </div>
+</footer>

@@ -1,0 +1,55 @@
+---
+// Questions fréquentes : réponses tirées des faits du Tour (src/data/faits.ts).
+import Base from '../../layouts/Base.astro';
+import { lien } from '../../data/brand';
+import { AUDIT, FORMATION, SEUIL_OUVERTURE, VISIO_MINUTES } from '../../data/faits';
+
+const questions = [
+  {
+    q: 'Quand une ville s’ouvre-t-elle ?',
+    r: `Dès que ${SEUIL_OUVERTURE} entreprises de la ville ont confirmé.`,
+  },
+  {
+    q: 'Où se passe ma journée ?',
+    r: 'Chez vous, dans vos locaux.',
+  },
+  {
+    q: 'Comment se déroule la journée ?',
+    r: `Le matin, l’audit (${AUDIT.libelleDuree}). L’après-midi, la formation de vos équipes (${FORMATION.libelleDuree}).`,
+  },
+  {
+    q: 'Et le vendredi soir ?',
+    r: 'Une soirée réseau réunit les entreprises de l’étape. Chacun règle sa part.',
+  },
+  {
+    q: 'Qui peut participer ?',
+    r: 'De l’indépendant au grand groupe, tous secteurs.',
+  },
+  {
+    q: 'Que se passe-t-il après ma participation ?',
+    r: `Une visio de ${VISIO_MINUTES} minutes pour préparer votre journée.`,
+  },
+];
+---
+<Base titre="Questions fréquentes | Tour de France IA" description="Les réponses courtes sur le Tour de France IA : ouverture d’une ville, déroulé de votre journée, soirée réseau du vendredi.">
+  <section class="conteneur pt-16 sm:pt-24">
+    <p class="repere">FAQ</p>
+    <h1 class="mt-4 text-5xl leading-tight sm:text-6xl">Questions fréquentes</h1>
+    <div class="mt-10 max-w-3xl border-t border-bordure">
+      {questions.map((item) => (
+        <details class="faq group border-b border-bordure">
+          <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 text-lg font-semibold text-fg">
+            {item.q}
+            <span class="font-mono text-terracotta transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <p class="pb-5 text-fg-soft">{item.r}</p>
+        </details>
+      ))}
+    </div>
+    <a href={lien('participer/')} class="btn btn-principal mt-12 whitespace-normal text-center">Je veux le Tour dans mon entreprise</a>
+  </section>
+</Base>
+
+<style>
+  .faq summary::-webkit-details-marker { display: none; }
+</style>
